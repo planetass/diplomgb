@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  postgres_user:
+    image: 'postgres:13.2-alpine'
+    container_name: 'user-postgres'
+    ports:
+      - "5434:5432"
+    environment:
+      - 'POSTGRES_USER=sa'
+      - 'POSTGRES_PASSWORD=123'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_DB=offer-db'
+    volumes:
+      - './.containers/offerDB:/var/lib/postgresql/data'
+
+
+#  postgres_user:
+#    image: 'postgres:13.2-alpine'
+#    container_name: 'user-postgres'
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      - 'POSTGRES_USER=sa'
+#      - 'POSTGRES_PASSWORD=123'
+#      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+#      - 'POSTGRES_DB=users-db'
+#    volumes:
+#      - './.containers/usersDB:/var/lib/postgresql/data'
+

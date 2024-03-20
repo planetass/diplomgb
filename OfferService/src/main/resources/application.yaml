@@ -1,0 +1,27 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: OfferService
+  datasource:
+    url: jdbc:postgresql://localhost:5434/offer-db
+    username: sa
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  cloud:
+    openfeign:
+      client:
+        config:
+          user-service:
+            url: http://localhost:8081/users
+
+jwt:
+  secret: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+  lifetime: 360000000

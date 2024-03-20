@@ -1,0 +1,20 @@
+server:
+  port: 8765
+
+spring:
+  application:
+    name: APIGateway
+  cloud:
+    gateway:
+      routes:
+        - id: UserService
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/userService/**
+        - id: TransportationService
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/offerService/**
+
+
+
