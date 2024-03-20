@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5" style="width: 80%;text-align: center">
+  <p class="alert alert-primary" role="alert"> Add Car</p>
+  <table class="table">
+    <colgroup>
+      <col span="1" style="width: 5%;">
+      <col span="1" style="width: 15%;">
+      <col span="1" style="width: 15%;">
+      <col span="1" style="width: 20%;">
+      <col span="1" style="width: 30%;">
+      <col span="1" style="width: 15%;">
+
+    </colgroup>
+    <thead>
+    <tr>
+      <th scope="col" style="">ID</th>
+      <th scope="col">Название</th>
+      <th scope="col" style="text-align: left">Модель</th>
+      <th scope="col" style="text-align: left">Тип</th>
+      <th scope="col" style="text-align: left">Описание</th>
+      <th scope="col" style="text-align: left"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <form action="/caradd" method="post">
+        <input type="hidden" name="token" th:value="${token}">
+
+        <td><input type="hidden" name="id" value="0"></td>
+        <td style="text-align: left">
+          <input type="text" class="form-control" name="name">
+
+        </td>
+        <td style="text-align: left">
+          <select name="idCarModel" class="form-select" aria-label="Default select example">
+            <option selected value="0">Модель автомобиля</option>
+            <div th:switch="${carmodels}">
+              <div th:case="null">
+              </div>
+              <div th:case="*">
+                <div th:each="carmodel : ${carmodels}">
+                  <option th:text="${carmodel.getCarModel()}" th:value="${carmodel.getId()}">
+                  </option>
+                </div>
+              </div>
+            </div>
+          </select>
+        </td>
+
+        <td style="text-align: left">
+          <select name="iDcarType" class="form-select" aria-label="Default select example">
+            <option selected value="0" >Тип автомобиля</option>
+            <div th:switch="${cartypes}">
+              <div th:case="null">
+              </div>
+              <div th:case="*">
+                <div th:each="cartype : ${cartypes}">
+                  <option name="type" th:text="${cartype.getCarType()}" th:value="${cartype.getId()}">
+                  </option>
+                </div>
+              </div>
+            </div>
+          </select>
+        </td>
+
+
+        <td style="text-align: left">
+          <input type="text" class="form-control" name="description">
+        </td>
+        <td style="text-align: left">
+          <input class="btn btn-outline-primary" type="submit" value="Добавить" style="width: 150px"><br>
+
+        </td>
+      </form>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div th:switch="${cars}">
+  <div th:case="null" class="container mt-5" style="width: 80%;text-align: center">
+    <p class="alert alert-danger" role="alert"> No CarsModel Found! </p>
+  </div>
+  <div class="container mt-5" th:case="*" style="width: 80%;text-align: center">
+    <div class="container mt-5" style="text-align: center">
+      <p class="alert alert-success" role="alert"> Cars Models List </p>
+    </div>
+    <table class="table">
+      <colgroup>
+        <col span="1" style="width: 5%;">
+        <col span="1" style="width: 15%;">
+        <col span="1" style="width: 15%;">
+        <col span="1" style="width: 15%;">
+        <col span="1" style="width: 35%;">
+        <col span="1" style="width: 15%;">
+
+      </colgroup>
+      <thead>
+      <tr>
+        <th scope="col" style="">ID</th>
+        <th scope="col">Название</th>
+        <th scope="col" style="text-align: left">Модель</th>
+        <th scope="col" style="text-align: left">Тип</th>
+        <th scope="col" style="text-align: left">Описание</th>
+        <th scope="col" style="text-align: left"></th>
+
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr th:each="car : ${cars}">
+        <td th:text="${car.id}"></td>
+        <td style="text-align: left" th:text="${car.name}"></td>
+        <td style="text-align: left" th:text="${car.getModel().getCarModel()}"></td>
+        <td style="text-align: left" th:text="${car.getCarType().getCarType()}"></td>
+        <td style="text-align: left" th:text="${car.getDescription()}"></td>
+        <td style="text-align: left">
+          <a th:href="@{/caredit/{id}/{tkn}(id=${car.id},tkn=${token})}">
+            <button type="button" class="btn btn-outline-primary" style="width: 70px">Edit</button>
+          </a>
+          <a th:href="@{/cardelete/{id}/{tkn}(id=${car.id},tkn=${token})}">
+            <button type="button" class="btn btn-outline-primary" style="width: 70px">Delete</button>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+          integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+          integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+          crossorigin="anonymous"></script>
+</div>
+</body>
+</html>
